@@ -1,0 +1,146 @@
+<h2>两种务实的 UI 升级方案</h2>
+<p class="subtitle">目标：让 MomsLove 看起来现代、好看，而非"WinUI 框架迁移"</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">方案 A：WPF + Fluent Design 手工主题</div>
+    <div class="mockup-body" style="font-family: 'Segoe UI', sans-serif; padding: 20px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 8px; color: white;">
+      <h3 style="margin: 0 0 16px; font-weight: 600; font-size: 18px; color: #e0e0e0;">妈妈的爱</h3>
+      
+      <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 24px; font-weight: 700; color: #81c784;">03:25</div>
+            <div style="font-size: 11px; color: #aaa;">剩余使用时间</div>
+          </div>
+          <div style="background: #81c784; color: #1a1a2e; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+            开始玩
+          </div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 14px;">
+          <div style="font-size: 12px; color: #aaa;">今日剩余次数</div>
+          <div style="font-size: 28px; font-weight: 700; color: #ffb74d;">3</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 14px;">
+          <div style="font-size: 12px; color: #aaa;">单次时长</div>
+          <div style="font-size: 28px; font-weight: 700; color: #64b5f6;">45分钟</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 12px; text-align: center;">
+        <div style="background: linear-gradient(90deg, #81c784 60%, rgba(255,255,255,0.1) 60%); height: 6px; border-radius: 3px;"></div>
+        <div style="font-size: 10px; color: #777; margin-top: 4px;">进度条：已使用 60%</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p style="font-size: 13px; color: #ccc; margin: 8px 0 0;">深色模式 + 亚克力效果 + 现代化排版</p>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">方案 A-浅色：WPF + Fluent 浅色主题</div>
+    <div class="mockup-body" style="font-family: 'Segoe UI', sans-serif; padding: 20px; background: linear-gradient(135deg, #f0f4f8 0%, #e8edf2 50%, #dce3e9 100%); border-radius: 8px; color: #1e293b;">
+      <h3 style="margin: 0 0 16px; font-weight: 600; font-size: 18px; color: #334155;">妈妈的爱</h3>
+      
+      <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 20px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 24px; font-weight: 700; color: #3b82f6;">03:25</div>
+            <div style="font-size: 11px; color: #94a3b8;">剩余使用时间</div>
+          </div>
+          <div style="background: #3b82f6; color: white; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px rgba(59,130,246,0.3);">
+            开始玩
+          </div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.06); border-radius: 10px; padding: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.04);">
+          <div style="font-size: 12px; color: #94a3b8;">今日剩余次数</div>
+          <div style="font-size: 28px; font-weight: 700; color: #f59e0b;">3</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.06); border-radius: 10px; padding: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.04);">
+          <div style="font-size: 12px; color: #94a3b8;">单次时长</div>
+          <div style="font-size: 28px; font-weight: 700; color: #10b981;">45分钟</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p style="font-size: 13px; color: #ccc; margin: 8px 0 0;">浅色模式 + 毛玻璃效果 + 蓝色主题</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 24px;">
+  <h3>方案 B：什么也不动，只统一整理现有 CSS/颜色</h3>
+  <p class="subtitle">仅建立 ResourceDictionary 统一颜色/字体/圆角，不改视觉效果</p>
+  <div style="background: #2d2d2d; border-radius: 8px; padding: 16px;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #ccc;">
+      <tr>
+        <td style="padding: 6px 12px; color: #81c784; font-weight: 600;">改动范围</td>
+        <td style="padding: 6px 12px;">提取颜色画刷、统一圆角值、提取重复样式</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 12px; color: #81c784; font-weight: 600;">视觉效果</td>
+        <td style="padding: 6px 12px;">与现状完全相同，只是代码更干净</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 12px; color: #81c784; font-weight: 600;">工作量</td>
+        <td style="padding: 6px 12px;">很小，1-2 小时</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div style="margin-top: 24px;">
+  <h3>方案 C：完全迁移到 WinUI 3（你刚选的 A）</h3>
+  <p class="subtitle">重写所有 UI 代码，只保留 Core 业务逻辑</p>
+
+  <div style="background: #2d2d2d; border-radius: 8px; padding: 16px;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #ccc;">
+      <tr>
+        <td style="padding: 6px 12px; color: #f7768e; font-weight: 600;">改动范围</td>
+        <td style="padding: 6px 12px;">7 个窗口全部重写、托盘图标、进程守护、Canvas 动画全部重做</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 12px; color: #f7768e; font-weight: 600;">可保留</td>
+        <td style="padding: 6px 12px;">MomsLove.Core（Models、AppDataStore、PlaySessionManager、PasswordHasher）</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 12px; color: #f7768e; font-weight: 600;">风险</td>
+        <td style="padding: 6px 12px;">WinUI 3 在 .NET 9 才真正稳定，且某些功能（托盘图标、无边框窗口）API 与 WPF 完全不同</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 12px; color: #f7768e; font-weight: 600;">工作量</td>
+        <td style="padding: 6px 12px;">非常大，相当于重新开发整个应用</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="options" style="margin-top: 28px;">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>方案 A — 推荐 ✅</h3>
+      <p>WPF + Fluent Design 主题重设计。在现有代码基础上全面刷新视觉效果，达到 WinUI 级别的现代美观度。保留所有业务逻辑和动画代码，只改造外观。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>方案 B</h3>
+      <p>仅整理代码结构，提取 ResourceDictionary 统一颜色/字体，不改视觉效果。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>方案 C</h3>
+      <p>完全迁移到 WinUI 3，重写所有 UI 代码。风险高、工作量大。</p>
+    </div>
+  </div>
+</div>

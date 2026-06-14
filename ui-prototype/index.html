@@ -1,0 +1,1340 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>妈妈的爱 UI 静态视觉原型</title>
+  <style>
+    :root {
+      --sky: #dff4ff;
+      --sky-deep: #72c8ee;
+      --grass: #76c893;
+      --grass-soft: #e4f7df;
+      --sun: #ffd76d;
+      --coral: #ff8f70;
+      --coral-deep: #f46f56;
+      --ink: #254052;
+      --muted: #6f8794;
+      --panel: #ffffff;
+      --line: #d6edf3;
+      --shadow: 0 18px 42px rgba(52, 111, 137, .18);
+      --radius: 8px;
+      font-family: "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #eef9fb;
+    }
+
+    .gallery {
+      display: grid;
+      gap: 36px;
+      padding: 36px;
+      justify-content: center;
+    }
+
+    .caption {
+      margin: 0 0 10px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #315164;
+    }
+
+    .frame {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #e9f8ff 0%, #f8fffb 64%, #e7f7de 100%);
+      border: 1px solid #c9e8ef;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .desktop {
+      width: 1440px;
+      height: 900px;
+    }
+
+    .dialog {
+      width: 720px;
+      height: 480px;
+    }
+
+    .titlebar {
+      height: 44px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #486475;
+      background: rgba(255, 255, 255, .72);
+      border-bottom: 1px solid rgba(156, 211, 225, .55);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #bddce5;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .heart {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--coral);
+      border-radius: var(--radius);
+      font-size: 19px;
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 3;
+      padding: 28px 48px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 310px;
+      padding: 13px 18px;
+      background: rgba(255, 255, 255, .88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 22px rgba(73, 137, 156, .10);
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .coin {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: var(--sun);
+      border-radius: 50%;
+      color: #805b00;
+      font-weight: 900;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 44px 0 0;
+      pointer-events: none;
+    }
+
+    .sun {
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      border-radius: 50%;
+      background: var(--sun);
+      box-shadow: 0 0 0 18px rgba(255, 215, 109, .22);
+    }
+
+    .cloud {
+      position: absolute;
+      width: 148px;
+      height: 54px;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 7px 18px rgba(75, 129, 151, .10);
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      bottom: 18px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .cloud::before {
+      width: 58px;
+      height: 58px;
+      left: 22px;
+    }
+
+    .cloud::after {
+      width: 72px;
+      height: 72px;
+      right: 20px;
+    }
+
+    .hills {
+      position: absolute;
+      left: -80px;
+      right: -80px;
+      bottom: -110px;
+      height: 230px;
+      background:
+        radial-gradient(720px 240px at 22% 100%, #bde9a9 0 58%, transparent 59%),
+        radial-gradient(720px 260px at 72% 100%, #95d99a 0 58%, transparent 59%);
+    }
+
+    .house {
+      position: absolute;
+      right: 92px;
+      bottom: 98px;
+      width: 150px;
+      height: 110px;
+      background: #fff4d1;
+      border: 4px solid #e6bd68;
+      border-radius: var(--radius);
+    }
+
+    .house::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: -58px;
+      width: 106px;
+      height: 106px;
+      background: var(--coral);
+      transform: rotate(45deg);
+      border-radius: 8px;
+      z-index: -1;
+    }
+
+    .child-dashboard {
+      position: relative;
+      z-index: 2;
+      height: calc(100% - 44px);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .timer-wrap {
+      display: grid;
+      place-items: center;
+      padding-top: 30px;
+    }
+
+    .timer-card {
+      width: 470px;
+      height: 470px;
+      display: grid;
+      place-items: center;
+      background: white;
+      border: 12px solid #a7def1;
+      border-radius: 50%;
+      box-shadow: 0 24px 48px rgba(39, 105, 130, .16);
+    }
+
+    .timer-inner {
+      width: 372px;
+      height: 372px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: linear-gradient(180deg, #fffdf4, #f1fbff);
+      border: 2px dashed #b8e3ee;
+      border-radius: 50%;
+    }
+
+    .timer-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .timer {
+      margin: 10px 0 8px;
+      color: #24465b;
+      font-size: 92px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .timer-note {
+      margin: 0;
+      color: #688292;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .primary-action {
+      border: 0;
+      border-radius: var(--radius);
+      padding: 20px 38px;
+      background: var(--coral);
+      color: white;
+      font-size: 30px;
+      font-weight: 900;
+      box-shadow: 0 14px 24px rgba(244, 111, 86, .25);
+    }
+
+    .bottom-strip {
+      position: relative;
+      z-index: 3;
+      margin: 0 48px 42px;
+      padding: 22px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 30px rgba(73, 137, 156, .12);
+    }
+
+    .progress {
+      width: 500px;
+      height: 18px;
+      background: #e4f2f6;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      width: 64%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--grass), var(--sun));
+    }
+
+    .strip-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .strip-sub {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .dialog-content {
+      position: relative;
+      height: calc(100% - 44px);
+      padding: 38px 44px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 30px;
+      align-items: center;
+      background: linear-gradient(180deg, #effaff, #fffdf2);
+    }
+
+    .dialog-art {
+      width: 206px;
+      height: 206px;
+      position: relative;
+      background: #dff4ff;
+      border: 2px solid #bde3ee;
+      border-radius: 50%;
+    }
+
+    .dialog-art .sun {
+      width: 76px;
+      height: 76px;
+      top: 30px;
+      left: 68px;
+    }
+
+    .person {
+      position: absolute;
+      left: 72px;
+      bottom: 34px;
+      width: 62px;
+      height: 78px;
+      background: #76c893;
+      border-radius: 30px 30px 10px 10px;
+    }
+
+    .person::before {
+      content: "";
+      position: absolute;
+      left: 11px;
+      top: -42px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #ffd4a5;
+      box-shadow: inset 0 -5px 0 rgba(221, 148, 83, .25);
+    }
+
+    .dialog h2 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      line-height: 1.2;
+    }
+
+    .dialog p {
+      margin: 0;
+      color: #607b8a;
+      font-size: 20px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .dialog-actions {
+      margin-top: 28px;
+      display: flex;
+      gap: 14px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: var(--radius);
+      padding: 15px 22px;
+      font-size: 20px;
+      font-weight: 900;
+      color: white;
+      background: var(--coral);
+    }
+
+    .btn.secondary {
+      color: #315164;
+      background: #e4f7df;
+      border: 1px solid #b8dfaa;
+    }
+
+    .rest-layout,
+    .done-layout {
+      position: relative;
+      z-index: 2;
+      height: calc(100% - 44px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 30px;
+      padding: 44px 70px 70px;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 18px;
+      font-size: 54px;
+      line-height: 1.12;
+    }
+
+    .hero-copy p {
+      max-width: 560px;
+      margin: 0;
+      color: #617d8b;
+      font-size: 24px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .rest-timer {
+      margin-top: 34px;
+      width: 410px;
+      padding: 28px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 36px rgba(52, 111, 137, .14);
+    }
+
+    .rest-timer strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 74px;
+      line-height: 1;
+    }
+
+    .big-illustration {
+      position: relative;
+      height: 500px;
+      background: linear-gradient(180deg, #ffffff, #effaff);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .window {
+      position: absolute;
+      right: 58px;
+      top: 52px;
+      width: 220px;
+      height: 180px;
+      background: #cfefff;
+      border: 10px solid white;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 22px rgba(73, 137, 156, .12);
+    }
+
+    .cup {
+      position: absolute;
+      left: 86px;
+      bottom: 108px;
+      width: 108px;
+      height: 104px;
+      background: var(--sun);
+      border-radius: 0 0 26px 26px;
+    }
+
+    .cup::after {
+      content: "";
+      position: absolute;
+      right: -36px;
+      top: 26px;
+      width: 42px;
+      height: 48px;
+      border: 10px solid var(--sun);
+      border-left: 0;
+      border-radius: 0 24px 24px 0;
+    }
+
+    .stretch {
+      position: absolute;
+      right: 138px;
+      bottom: 88px;
+      width: 92px;
+      height: 150px;
+      background: #76c893;
+      border-radius: 44px 44px 12px 12px;
+    }
+
+    .stretch::before {
+      content: "";
+      position: absolute;
+      left: 20px;
+      top: -54px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #ffd4a5;
+    }
+
+    .rainbow {
+      position: absolute;
+      left: 100px;
+      top: 88px;
+      width: 260px;
+      height: 130px;
+      border-radius: 260px 260px 0 0;
+      border: 22px solid var(--coral);
+      border-bottom: 0;
+      box-shadow:
+        inset 0 18px 0 var(--sun),
+        inset 0 39px 0 var(--grass),
+        inset 0 60px 0 var(--sky-deep);
+    }
+
+    .done-card {
+      margin-top: 34px;
+      display: grid;
+      gap: 12px;
+      width: 500px;
+    }
+
+    .suggestion {
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .settings {
+      position: relative;
+      z-index: 2;
+      height: calc(100% - 44px);
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 28px;
+      padding: 34px 42px 42px;
+      background: #f6fcfd;
+    }
+
+    .side,
+    .main-panel {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 16px 34px rgba(52, 111, 137, .10);
+    }
+
+    .side {
+      padding: 24px;
+    }
+
+    .main-panel {
+      padding: 26px;
+    }
+
+    .panel-title {
+      margin: 0 0 18px;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .dropzone {
+      height: 170px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: #effaff;
+      border: 2px dashed #9bd3e6;
+      border-radius: var(--radius);
+      color: #4d7488;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .rule-list {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .rule {
+      display: grid;
+      grid-template-columns: 44px 1fr 54px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid #e0eff3;
+      border-radius: var(--radius);
+      background: #fbfeff;
+    }
+
+    .app-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: white;
+      background: var(--sky-deep);
+      font-size: 22px;
+    }
+
+    .rule strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .rule span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .switch {
+      width: 52px;
+      height: 28px;
+      padding: 4px;
+      background: var(--grass);
+      border-radius: 999px;
+    }
+
+    .switch::after {
+      content: "";
+      display: block;
+      margin-left: auto;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .setting-card {
+      padding: 20px;
+      background: #fbfeff;
+      border: 1px solid #e0eff3;
+      border-radius: var(--radius);
+    }
+
+    .setting-card label {
+      display: block;
+      margin-bottom: 12px;
+      color: #547281;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: 42px 1fr 42px;
+      align-items: center;
+      height: 48px;
+      background: #eef8fb;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .stepper button {
+      height: 48px;
+      border: 0;
+      background: #d9f0f7;
+      color: #315164;
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .stepper strong {
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .settings-footer {
+      margin-top: 22px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff8e2;
+      border: 1px solid #f0df9e;
+      border-radius: var(--radius);
+    }
+
+    .password-box {
+      margin-top: 24px;
+      padding: 20px;
+      background: #f3fbf0;
+      border: 1px solid #c9e9bd;
+      border-radius: var(--radius);
+    }
+
+    .password-box h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .password-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .small-button {
+      border: 0;
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      background: var(--grass);
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .play-layout {
+      position: relative;
+      z-index: 2;
+      height: calc(100% - 44px);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 28px 48px 24px;
+      gap: 16px;
+    }
+
+    .play-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .session-hero {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 30px;
+      align-items: center;
+      padding: 16px 30px;
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 36px rgba(52, 111, 137, .14);
+    }
+
+    .session-ring {
+      width: 260px;
+      height: 260px;
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      background:
+        conic-gradient(var(--coral) 0 72%, #e6f3f7 72% 100%);
+      border-radius: 50%;
+      box-shadow: 0 18px 34px rgba(244, 111, 86, .16);
+    }
+
+    .session-ring-inner {
+      width: 210px;
+      height: 210px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: linear-gradient(180deg, #fffdf4, #f1fbff);
+      border: 10px solid white;
+      border-radius: 50%;
+    }
+
+    .session-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .session-timer {
+      margin: 8px 0 6px;
+      color: #24465b;
+      font-size: 72px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .session-note {
+      margin: 0;
+      color: #688292;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .session-copy h1 {
+      margin: 0 0 14px;
+      font-size: 38px;
+      line-height: 1.14;
+    }
+
+    .session-copy p {
+      margin: 0;
+      max-width: 620px;
+      color: #607b8a;
+      font-size: 20px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .session-progress {
+      margin-top: 20px;
+      height: 18px;
+      background: #e4f2f6;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .session-progress span {
+      display: block;
+      width: 72%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--coral), var(--sun), var(--grass));
+    }
+
+    .game-panel {
+      min-height: 0;
+      padding: 16px 20px 18px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 30px rgba(73, 137, 156, .12);
+      overflow: hidden;
+    }
+
+    .game-panel-head {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .game-panel-head h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .game-count {
+      padding: 10px 16px;
+      color: #315164;
+      background: #effaff;
+      border: 1px solid #d4ebf2;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .game-grid {
+      max-height: 264px;
+      min-height: 0;
+      padding: 2px 6px 2px 0;
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 10px;
+      overflow-y: auto;
+      scrollbar-color: #acd9e7 #eef8fb;
+      scrollbar-width: thin;
+    }
+
+    .game-card {
+      min-width: 0;
+      min-height: 118px;
+      padding: 12px 10px 10px;
+      display: grid;
+      grid-template-rows: 42px 22px 34px;
+      justify-items: center;
+      align-items: center;
+      gap: 8px;
+      background: #fbfeff;
+      border: 1px solid #dceff4;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 22px rgba(73, 137, 156, .10);
+    }
+
+    .game-card-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--sky-deep);
+      border-radius: var(--radius);
+      font-size: 22px;
+    }
+
+    .game-card strong {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .open-button {
+      width: 100%;
+      height: 34px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0 10px;
+      background: var(--coral);
+      color: white;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .play-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 24px;
+      background: rgba(255, 248, 226, .94);
+      border: 1px solid #f0df9e;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 24px rgba(170, 138, 50, .10);
+      font-size: 20px;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <main class="gallery">
+    <section>
+      <p class="caption">01 儿童主界面</p>
+      <div class="frame desktop" id="child-main">
+        <div class="titlebar">
+          <span>妈妈的爱</span>
+          <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        </div>
+        <div class="scene">
+          <div class="sun" style="left: 126px; top: 78px;"></div>
+          <div class="cloud" style="left: 330px; top: 82px;"></div>
+          <div class="cloud" style="right: 190px; top: 140px; transform: scale(.82);"></div>
+          <div class="hills"></div>
+          <div class="house"></div>
+        </div>
+        <div class="child-dashboard">
+          <div class="topbar">
+            <div class="brand"><span class="heart">♥</span><span>妈妈的爱</span></div>
+            <div class="status-pill"><span class="coin">2</span><span>今天还可以玩 2 次</span></div>
+          </div>
+          <div class="timer-wrap">
+            <div class="timer-card">
+              <div class="timer-inner">
+                <div>
+                  <p class="timer-label">这一轮还有</p>
+                  <div class="timer">30:00</div>
+                  <p class="timer-note">玩完这一局就休息</p>
+                </div>
+              </div>
+            </div>
+            <button class="primary-action">▶ 开始玩</button>
+          </div>
+          <div class="bottom-strip">
+            <div>
+              <p class="strip-title">下一次休息 30 分钟</p>
+              <p class="strip-sub">规则每天都会自动重置，今天还有两次机会。</p>
+            </div>
+            <div class="progress"><span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="caption">06 游戏进行中</p>
+      <div class="frame desktop" id="play-session">
+        <div class="titlebar">
+          <span>妈妈的爱</span>
+          <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        </div>
+        <div class="scene">
+          <div class="sun" style="left: 112px; top: 72px;"></div>
+          <div class="cloud" style="left: 304px; top: 96px; transform: scale(.88);"></div>
+          <div class="cloud" style="right: 154px; top: 92px;"></div>
+          <div class="hills"></div>
+        </div>
+        <div class="play-layout">
+          <div class="play-header">
+            <div class="brand"><span class="heart">♥</span><span>妈妈的爱</span></div>
+            <div class="status-pill"><span class="coin">1</span><span>今天第 1/2 次</span></div>
+          </div>
+          <div class="session-hero">
+            <div class="session-ring">
+              <div class="session-ring-inner">
+                <div>
+                  <p class="session-label">本轮剩余时间</p>
+                  <div class="session-timer">29:42</div>
+                  <p class="session-note">玩完这一局就准备休息</p>
+                </div>
+              </div>
+            </div>
+            <div class="session-copy">
+              <h1>选择今天要玩的游戏</h1>
+              <p>这一轮已经开始计时。可以打开下面任意游戏，多个游戏也算同一轮。</p>
+              <div class="session-progress"><span></span></div>
+            </div>
+          </div>
+          <div class="game-panel">
+            <div class="game-panel-head">
+              <h2>选择游戏</h2>
+              <div class="game-count">24 个可用</div>
+            </div>
+            <div class="game-grid">
+              <div class="game-card">
+                <div class="game-card-icon">🎮</div>
+                <strong>小小赛车</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: var(--grass);">🧩</div>
+                <strong>方块世界</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: var(--coral);">🚀</div>
+                <strong>星球探险</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: var(--sun); color:#76540a;">📁</div>
+                <strong>Steam 游戏</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #8dc8ff;">⚡</div>
+                <strong>桌面游戏</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #9b8cff;">🏰</div>
+                <strong>城堡建造</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #5fc6a1;">🛡️</div>
+                <strong>勇者传说</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #ff9f6e;">🏎️</div>
+                <strong>极速卡丁车</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #6bb9ff;">🌊</div>
+                <strong>海岛冒险</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #f58fb0;">🎲</div>
+                <strong>棋盘派对</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #52b788;">🌳</div>
+                <strong>森林小队</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #ef8354;">🔥</div>
+                <strong>火山冲刺</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #6d9dc5;">⛏️</div>
+                <strong>矿洞探秘</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #b088f9;">🪄</div>
+                <strong>魔法课堂</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #f6c85f; color:#76540a;">🏀</div>
+                <strong>篮球明星</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #70c1b3;">🧠</div>
+                <strong>脑力闯关</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #ff7f7f;">🧱</div>
+                <strong>积木工坊</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #7cc6fe;">🛫</div>
+                <strong>飞行学院</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #7bd389;">🐾</div>
+                <strong>宠物乐园</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #ffb86c;">🍳</div>
+                <strong>开心厨房</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #758bfd;">🎵</div>
+                <strong>节奏舞台</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #4ecdc4;">🧭</div>
+                <strong>地图寻宝</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #ff8a65;">🏕️</div>
+                <strong>露营大作战</strong>
+                <button class="open-button">打开</button>
+              </div>
+              <div class="game-card">
+                <div class="game-card-icon" style="background: #93c5fd;">✨</div>
+                <strong>超级长名字游戏测试</strong>
+                <button class="open-button">打开</button>
+              </div>
+            </div>
+          </div>
+          <div class="play-footer">
+            <span>今天还剩 1 次机会</span>
+            <span>休息 30 分钟后可以再玩</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="caption">02 时间到提醒弹窗</p>
+      <div class="frame dialog" id="time-up">
+        <div class="titlebar">
+          <span>妈妈的爱提醒</span>
+          <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        </div>
+        <div class="dialog-content">
+          <div class="dialog-art">
+            <div class="sun"></div>
+            <div class="person"></div>
+          </div>
+          <div>
+            <h2>这一轮时间到啦</h2>
+            <p>准备收尾吧。可以把这一局玩完，然后让眼睛和手都休息一下。</p>
+            <div class="dialog-actions">
+              <button class="btn secondary">我马上休息</button>
+              <button class="btn">再等一下</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="caption">03 冷却休息界面</p>
+      <div class="frame desktop" id="cooldown">
+        <div class="titlebar">
+          <span>妈妈的爱</span>
+          <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        </div>
+        <div class="scene">
+          <div class="cloud" style="left: 116px; top: 84px;"></div>
+          <div class="cloud" style="right: 210px; top: 74px; transform: scale(.86);"></div>
+          <div class="hills"></div>
+        </div>
+        <div class="rest-layout">
+          <div class="hero-copy">
+            <h1>现在是休息时间</h1>
+            <p>喝点水，伸伸手，看看远处。休息好了，下一次会更轻松。</p>
+            <div class="rest-timer">
+              <span>还要休息</span>
+              <strong>29:18</strong>
+            </div>
+          </div>
+          <div class="big-illustration">
+            <div class="window"></div>
+            <div class="cup"></div>
+            <div class="stretch"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="caption">04 今日用完界面</p>
+      <div class="frame desktop" id="done">
+        <div class="titlebar">
+          <span>妈妈的爱</span>
+          <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        </div>
+        <div class="scene">
+          <div class="sun" style="left: 145px; top: 86px;"></div>
+          <div class="cloud" style="right: 164px; top: 105px;"></div>
+          <div class="hills"></div>
+        </div>
+        <div class="done-layout">
+          <div class="hero-copy">
+            <h1>今天的游戏时间已经用完啦</h1>
+            <p>明天还会有新的游戏时间。现在可以换个小计划，让今天也很棒。</p>
+            <div class="done-card">
+              <div class="suggestion"><span class="coin">水</span><span>喝一杯水</span></div>
+              <div class="suggestion"><span class="coin">书</span><span>看一页喜欢的书</span></div>
+              <div class="suggestion"><span class="coin">画</span><span>画一个今天的好点子</span></div>
+            </div>
+          </div>
+          <div class="big-illustration">
+            <div class="rainbow"></div>
+            <div class="window" style="right: 70px; top: 96px;"></div>
+            <div class="house" style="right: 180px; bottom: 82px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="caption">05 家长设置界面</p>
+      <div class="frame desktop" id="settings">
+        <div class="titlebar">
+          <span>妈妈的爱 · 家长设置</span>
+          <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        </div>
+        <div class="settings">
+          <aside class="side">
+            <h2 class="panel-title">控制列表</h2>
+            <div class="dropzone">
+              <div>拖入快捷方式、应用程序或目录</div>
+            </div>
+            <div class="rule-list">
+              <div class="rule">
+                <div class="app-icon">🎮</div>
+                <div><strong>小小赛车</strong><span>C:\Games\Racing\racing.exe</span></div>
+                <div class="switch"></div>
+              </div>
+              <div class="rule">
+                <div class="app-icon" style="background: var(--coral);">📁</div>
+                <div><strong>Steam 游戏目录</strong><span>D:\SteamLibrary\steamapps\common</span></div>
+                <div class="switch"></div>
+              </div>
+              <div class="rule">
+                <div class="app-icon" style="background: var(--sun); color:#76540a;">⚡</div>
+                <div><strong>桌面快捷方式</strong><span>C:\Users\Child\Desktop\Game.lnk</span></div>
+                <div class="switch"></div>
+              </div>
+            </div>
+          </aside>
+          <section class="main-panel">
+            <h2 class="panel-title">控制策略</h2>
+            <div class="settings-grid">
+              <div class="setting-card">
+                <label>每天可以玩几次</label>
+                <div class="stepper"><button>-</button><strong>2 次</strong><button>+</button></div>
+              </div>
+              <div class="setting-card">
+                <label>每次可以玩多久</label>
+                <div class="stepper"><button>-</button><strong>30 分钟</strong><button>+</button></div>
+              </div>
+              <div class="setting-card">
+                <label>两次之间休息多久</label>
+                <div class="stepper"><button>-</button><strong>30 分钟</strong><button>+</button></div>
+              </div>
+              <div class="setting-card">
+                <label>收尾宽限时间</label>
+                <div class="stepper"><button>-</button><strong>10 分钟</strong><button>+</button></div>
+              </div>
+            </div>
+            <div class="settings-footer">
+              <div>
+                <strong>开机自动运行</strong>
+                <div style="margin-top: 4px; color: var(--muted); font-weight: 700;">打开电脑后自动守护规则</div>
+              </div>
+              <div class="switch"></div>
+            </div>
+            <div class="password-box">
+              <h3>家长密码</h3>
+              <p>密码用于进入设置。当天次数用完后，密码也不能增加游戏时间。</p>
+              <button class="small-button" style="margin-top: 16px;">修改密码</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MomsLove", "MomsLove\MomsLove.csproj", "{BEAA27F5-77C9-4197-B3BC-386D943D8987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MomsLove.Tests", "MomsLove.Tests\MomsLove.Tests.csproj", "{F396E895-664F-42B6-8DBD-2FBE06C2B333}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MomsLove.Core", "MomsLove.Core\MomsLove.Core.csproj", "{ABDDFE73-FD14-4711-9166-6036B82533B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEAA27F5-77C9-4197-B3BC-386D943D8987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEAA27F5-77C9-4197-B3BC-386D943D8987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEAA27F5-77C9-4197-B3BC-386D943D8987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEAA27F5-77C9-4197-B3BC-386D943D8987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F396E895-664F-42B6-8DBD-2FBE06C2B333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F396E895-664F-42B6-8DBD-2FBE06C2B333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F396E895-664F-42B6-8DBD-2FBE06C2B333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F396E895-664F-42B6-8DBD-2FBE06C2B333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABDDFE73-FD14-4711-9166-6036B82533B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABDDFE73-FD14-4711-9166-6036B82533B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABDDFE73-FD14-4711-9166-6036B82533B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABDDFE73-FD14-4711-9166-6036B82533B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

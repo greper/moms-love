@@ -1,0 +1,76 @@
+<Window x:Class="MomsLove.TimeUpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="妈妈的爱提醒" Height="360" Width="640"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" Topmost="True">
+    <Border CornerRadius="16" BorderBrush="#8fcfe4" BorderThickness="2">
+        <Border.Effect>
+            <DropShadowEffect Color="#486475" BlurRadius="30" ShadowDepth="8" Opacity="0.24"/>
+        </Border.Effect>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#effaff" Offset="0"/>
+                <GradientStop Color="#fffdf2" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="42"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <TextBlock Text="妈妈的爱提醒" Margin="18,0,0,0" VerticalAlignment="Center"
+                           FontSize="14" FontWeight="Black" Foreground="#486475"/>
+                <Button Width="42" HorizontalAlignment="Right" Content="×" FontSize="20"
+                        Background="Transparent" Foreground="#486475" BorderThickness="0"
+                        Click="CloseButton_Click"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="26,8,26,28">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="210"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Width="178" Height="178" CornerRadius="16" Background="#e7f8ff"
+                        BorderBrush="#bde3ee" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Viewbox Margin="16">
+                        <Canvas Width="160" Height="160">
+                            <Ellipse Canvas.Left="22" Canvas.Top="20" Width="116" Height="116" Fill="#fffdf4" Stroke="#a7def1" StrokeThickness="4"/>
+                            <Ellipse Canvas.Left="56" Canvas.Top="34" Width="52" Height="52" Fill="#ffd76d"/>
+                            <Ellipse Canvas.Left="72" Canvas.Top="26" Width="52" Height="52" Fill="#fffdf4"/>
+                            <Path Data="M32,110 C58,92 99,92 128,111" Stroke="#76c893" StrokeThickness="10" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Fill="Transparent"/>
+                            <Rectangle Canvas.Left="48" Canvas.Top="104" Width="38" Height="34" RadiusX="8" RadiusY="8" Fill="#72c8ee"/>
+                            <Path Data="M86,113 C110,112 110,132 86,132" Stroke="#72c8ee" StrokeThickness="8" Fill="Transparent"/>
+                            <Line X1="112" Y1="96" X2="124" Y2="108" Stroke="#ff8f70" StrokeThickness="5" StrokeStartLineCap="Round"/>
+                            <Line X1="124" Y1="96" X2="112" Y2="108" Stroke="#ff8f70" StrokeThickness="5" StrokeStartLineCap="Round"/>
+                            <Ellipse Canvas.Left="28" Canvas.Top="44" Width="8" Height="8" Fill="#ffd76d"/>
+                            <Ellipse Canvas.Left="126" Canvas.Top="58" Width="6" Height="6" Fill="#ff8f70"/>
+                            <Ellipse Canvas.Left="112" Canvas.Top="124" Width="7" Height="7" Fill="#76c893"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock Text="这一轮时间到啦" FontSize="34" FontWeight="Black" Foreground="#254052"/>
+                    <TextBlock Margin="0,12,18,0"
+                               Text="准备收尾吧。可以把这一局玩完，然后让眼睛和手都休息一下。"
+                               TextWrapping="Wrap" FontSize="19" FontWeight="SemiBold"
+                               Foreground="#607b8a" LineHeight="31"/>
+                    <StackPanel Margin="0,28,0,0" Orientation="Horizontal">
+                        <Button Width="146" Height="48" Content="我马上休息"
+                                Background="#e4f7df" Foreground="#315164" BorderBrush="#b8dfaa"
+                                BorderThickness="1" FontSize="16" FontWeight="Black"
+                                Click="RestNow_Click"/>
+                        <Button Width="132" Height="48" Margin="14,0,0,0" Content="再等一下"
+                                Background="#ff8f70" Foreground="White" BorderThickness="0"
+                                FontSize="16" FontWeight="Black" Click="Wait_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
