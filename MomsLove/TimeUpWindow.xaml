@@ -37,21 +37,7 @@
 
                 <Border Width="178" Height="178" CornerRadius="16" Background="#e7f8ff"
                         BorderBrush="#bde3ee" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Viewbox Margin="16">
-                        <Canvas Width="160" Height="160">
-                            <Ellipse Canvas.Left="22" Canvas.Top="20" Width="116" Height="116" Fill="#fffdf4" Stroke="#a7def1" StrokeThickness="4"/>
-                            <Ellipse Canvas.Left="56" Canvas.Top="34" Width="52" Height="52" Fill="#ffd76d"/>
-                            <Ellipse Canvas.Left="72" Canvas.Top="26" Width="52" Height="52" Fill="#fffdf4"/>
-                            <Path Data="M32,110 C58,92 99,92 128,111" Stroke="#76c893" StrokeThickness="10" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Fill="Transparent"/>
-                            <Rectangle Canvas.Left="48" Canvas.Top="104" Width="38" Height="34" RadiusX="8" RadiusY="8" Fill="#72c8ee"/>
-                            <Path Data="M86,113 C110,112 110,132 86,132" Stroke="#72c8ee" StrokeThickness="8" Fill="Transparent"/>
-                            <Line X1="112" Y1="96" X2="124" Y2="108" Stroke="#ff8f70" StrokeThickness="5" StrokeStartLineCap="Round"/>
-                            <Line X1="124" Y1="96" X2="112" Y2="108" Stroke="#ff8f70" StrokeThickness="5" StrokeStartLineCap="Round"/>
-                            <Ellipse Canvas.Left="28" Canvas.Top="44" Width="8" Height="8" Fill="#ffd76d"/>
-                            <Ellipse Canvas.Left="126" Canvas.Top="58" Width="6" Height="6" Fill="#ff8f70"/>
-                            <Ellipse Canvas.Left="112" Canvas.Top="124" Width="7" Height="7" Fill="#76c893"/>
-                        </Canvas>
-                    </Viewbox>
+                    <Image Source="/Assets/timeup_illustration.png" Stretch="UniformToFill" Margin="4"/>
                 </Border>
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">

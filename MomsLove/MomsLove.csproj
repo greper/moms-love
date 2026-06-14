@@ -10,11 +10,12 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Assets\app-icon.ico</ApplicationIcon>
-    <Version>0.2.3</Version>
+    <Version>0.2.4</Version>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="Assets\rest-illustration.png" />
     <Resource Include="Assets\game-finished-illustration.png" />
+    <Resource Include="Assets\timeup_illustration.png" />
     <Resource Include="Assets\app-icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

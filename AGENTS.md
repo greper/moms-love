@@ -122,6 +122,12 @@ Start-Process -FilePath ".\MomsLove\bin\Debug\net8.0-windows\MomsLove.exe"
 
 ## 8. 发布打包规则
 
+### 发布后提交流程
+
+- 每次执行 `.\scripts\publish.ps1` 并确认发布成功后，优先将本次发布涉及的源码、资源和版本号变更提交到 Git，并推送到远程分支。
+- 提交前确保 `publish\MomsLove\` 等发布产物不被纳入版本控制。
+
+
 ### 版本号管理
 
 - 版本号在 `MomsLove\MomsLove.csproj` 的 `<Version>` 元素中维护，格式 `主版本.次版本.内部版本`（如 `0.2.0`）。
