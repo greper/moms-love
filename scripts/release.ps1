@@ -27,6 +27,7 @@ Push-Location $repoRoot
 try {
     if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) { throw "dotnet CLI was not found" }
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) { throw "git CLI was not found" }
+    if ([string]::IsNullOrWhiteSpace($Token)) { $Token = $env:GH_TOKEN }
     if ([string]::IsNullOrWhiteSpace($Token)) { $Token = $env:GITHUB_TOKEN }
     if ([string]::IsNullOrWhiteSpace($Token)) {
         $secureToken = Read-Host "Enter a GitHub token with Contents read/write permission" -AsSecureString
