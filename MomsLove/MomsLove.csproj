@@ -10,7 +10,7 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Assets\app-icon.ico</ApplicationIcon>
-    <Version>0.2.4</Version>
+    <Version>0.2.5</Version>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="Assets\rest-illustration.png" />
