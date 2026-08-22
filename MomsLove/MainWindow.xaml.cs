@@ -14,6 +14,7 @@ namespace MomsLove;
 
 public partial class MainWindow : Window
 {
+    private static readonly AppLogger Logger = App.Logger;
     private readonly AppDataStore _store = new();
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
     private readonly ObservableCollection<GameRow> _games = [];
@@ -28,6 +29,7 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        Logger.Write("主窗口初始化");
         InitializeComponent();
         _processGuard = new ProcessGuardService(this);
         _trayIcon = new TrayIconService(this);
@@ -43,9 +45,8 @@ public partial class MainWindow : Window
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        await ReloadStateAsync();
-        _timer.Start();
-        await TickAndSaveAsync();
+        try { await ReloadStateAsync(); _timer.Start(); await TickAndSaveAsync(); Logger.Write("主窗口加载完成"); }
+        catch (Exception ex) { Logger.Write("窗口加载失败", ex); MessageBox.Show(this, "应用初始化失败，详细信息已写入日志。", "妈妈的爱", MessageBoxButton.OK, MessageBoxImage.Error); }
     }
 
     private async void Window_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -80,7 +81,7 @@ public partial class MainWindow : Window
 
     private async void Timer_Tick(object? sender, EventArgs e)
     {
-        await TickAndSaveAsync();
+        try { await TickAndSaveAsync(); } catch (Exception ex) { Logger.Write("计时器处理失败", ex); }
     }
 
     private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -112,9 +113,12 @@ public partial class MainWindow : Window
         {
         }
 
-        var snapshot = _sessionManager.Tick(DateTimeOffset.Now);
+        var now = DateTimeOffset.Now;
+        var previousState = _sessionManager.Usage.State;
+        var snapshot = _sessionManager.Tick(now);
+        if (snapshot.State != previousState) Logger.Write($"游戏状态变更：{previousState} -> {snapshot.State}");
         Render(snapshot);
-        _processGuard.Enforce(_config, snapshot.State, DateTimeOffset.Now);
+        _processGuard.Enforce(_config, snapshot.State, now);
 
         if (snapshot.State == PlayState.GracePeriod
             && snapshot.StateEndsAt is DateTimeOffset graceSegmentEndsAt
@@ -218,6 +222,7 @@ public partial class MainWindow : Window
         {
             MessageBox.Show(this, "今天的游戏次数已经用完啦。", "妈妈的爱", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        else Logger.Write("开始游戏会话");
 
         await TickAndSaveAsync();
     }
@@ -235,6 +240,7 @@ public partial class MainWindow : Window
         }
 
         _sessionManager.FinishNow(DateTimeOffset.Now);
+        Logger.Write("手动结束游戏会话");
         await TickAndSaveAsync();
     }
 
@@ -260,6 +266,7 @@ public partial class MainWindow : Window
             Close();
         };
         var saved = settings.ShowDialog() == true;
+        Logger.Write(saved ? "保存设置" : "取消设置");
         await ReloadStateAsync();
         if (saved)
         {
@@ -271,6 +278,7 @@ public partial class MainWindow : Window
 
     private async Task ReloadStateAsync()
     {
+        Logger.Write("加载配置和使用状态");
         _config = await _store.LoadConfigAsync();
         var iconUpdated = false;
         foreach (var rule in _config.Rules)
@@ -327,9 +335,11 @@ public partial class MainWindow : Window
                 FileName = row.Rule.Path,
                 UseShellExecute = true
             });
+            Logger.Write($"启动游戏：{row.Rule.Path}");
         }
         catch (Exception ex)
         {
+            Logger.Write($"启动游戏失败：{row.Rule.Path}", ex);
             MessageBox.Show(this, $"打不开这个游戏：{ex.Message}", "妈妈的爱", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }

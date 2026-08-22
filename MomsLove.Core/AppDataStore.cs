@@ -8,6 +8,7 @@ public sealed class AppDataStore
     private readonly string _configPath;
     private readonly string _usagePath;
     private readonly JsonSerializerOptions _jsonOptions;
+    private readonly AppLogger _logger;
 
     public AppDataStore(string? baseDirectory = null)
     {
@@ -18,6 +19,7 @@ public sealed class AppDataStore
         Directory.CreateDirectory(root);
         _configPath = Path.Combine(root, "config.json");
         _usagePath = Path.Combine(root, "usage.json");
+        _logger = new AppLogger(root);
         _jsonOptions = new JsonSerializerOptions
         {
             WriteIndented = true,
@@ -30,6 +32,7 @@ public sealed class AppDataStore
 
     public async Task<AppConfig> LoadConfigAsync(CancellationToken cancellationToken = default)
     {
+        _logger.Write("读取配置");
         if (!File.Exists(_configPath))
         {
             return new AppConfig();
@@ -42,12 +45,14 @@ public sealed class AppDataStore
 
     public async Task SaveConfigAsync(AppConfig config, CancellationToken cancellationToken = default)
     {
+        _logger.Write("保存配置");
         await using var stream = File.Create(_configPath);
         await JsonSerializer.SerializeAsync(stream, config, _jsonOptions, cancellationToken);
     }
 
     public async Task<DailyUsage> LoadUsageAsync(DateOnly today, CancellationToken cancellationToken = default)
     {
+        _logger.Write($"读取使用状态：{today:yyyy-MM-dd}");
         DailyUsage usage;
         if (!File.Exists(_usagePath))
         {
