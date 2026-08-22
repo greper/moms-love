@@ -4,6 +4,7 @@ param(
     [string]$Bump = "build",
     [string]$Remote = "origin",
     [string]$Branch = "main",
+    [string]$Token = "",
     [switch]$Draft,
     [switch]$Prerelease
 )
@@ -26,7 +27,12 @@ Push-Location $repoRoot
 try {
     if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) { throw "dotnet CLI was not found" }
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) { throw "git CLI was not found" }
-    if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { throw "GitHub CLI (gh) was not found. Install it and run gh auth login first." }
+    if ([string]::IsNullOrWhiteSpace($Token)) { $Token = $env:GITHUB_TOKEN }
+    if ([string]::IsNullOrWhiteSpace($Token)) {
+        $secureToken = Read-Host "Enter a GitHub token with Contents read/write permission" -AsSecureString
+        $Token = [System.Net.NetworkCredential]::new("", $secureToken).Password
+    }
+    if ([string]::IsNullOrWhiteSpace($Token)) { throw "A GitHub token is required" }
 
     $status = git status --porcelain
     $managedPaths = @("MomsLove/MomsLove.csproj", "scripts/release.ps1")
@@ -35,7 +41,7 @@ try {
         $line -and (($managedPaths -notcontains $line.Substring(3)))
     })
     if ($unexpected.Count -gt 0) {
-        Write-Warning "工作区存在其他改动，脚本只会提交版本文件和 release 脚本："
+        Write-Warning "The working tree has unrelated changes; only release files will be committed:"
         $unexpected | ForEach-Object { Write-Warning $_ }
     }
 
@@ -73,11 +79,20 @@ try {
     Invoke-Native "git" @("push", $Remote, $Branch)
     Invoke-Native "git" @("push", $Remote, $tag)
 
-    $releaseArgs = @("release", "create", $tag, $archive, "--title", "MomsLove $tag", "--generate-notes")
-    if ($Draft) { $releaseArgs += "--draft" }
-    if ($Prerelease) { $releaseArgs += "--prerelease" }
+    $remoteUrl = (git config --get "remote.$Remote.url").Trim()
+    if ($remoteUrl -match "github\.com[:/]([^/]+)/([^/]+?)(?:\.git)?$") {
+        $owner = $Matches[1]
+        $repo = $Matches[2]
+    } else {
+        throw "Remote '$Remote' is not a GitHub repository: $remoteUrl"
+    }
+
+    $headers = @{ Authorization = "Bearer $Token"; Accept = "application/vnd.github+json"; "X-GitHub-Api-Version" = "2022-11-28" }
+    $releaseBody = @{ tag_name = $tag; name = "MomsLove $tag"; generate_release_notes = $true; draft = [bool]$Draft; prerelease = [bool]$Prerelease } | ConvertTo-Json
     Write-Host "Creating GitHub Release ..." -ForegroundColor Cyan
-    Invoke-Native "gh" $releaseArgs
+    $release = Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/$owner/$repo/releases" -Headers $headers -Body $releaseBody -ContentType "application/json"
+    $uploadHeaders = @{ Authorization = "Bearer $Token"; Accept = "application/vnd.github+json"; "X-GitHub-Api-Version" = "2022-11-28"; "Content-Type" = "application/zip" }
+    Invoke-RestMethod -Method Post -Uri ($release.upload_url -replace "\{\?name,label\}", "?name=$(Split-Path $archive -Leaf)") -Headers $uploadHeaders -InFile $archive
     Write-Host "Release $tag published successfully." -ForegroundColor Green
 } finally {
     Pop-Location
